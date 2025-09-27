@@ -34,7 +34,10 @@ dependencies:
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
   cupertino_icons: ^1.0.8
-
+  get: ^4.7.2
+  get_storage: ^2.1.1
+  smooth_page_indicator: ^1.2.1
+  iconsax_plus: 
 dev_dependencies:
   flutter_test:
     sdk: flutter
@@ -84,6 +87,4 @@ flutter:
   #       - asset: fonts/TrajanPro.ttf
   #       - asset: fonts/TrajanPro_Bold.ttf
   #         weight: 700
-  #
-  # For details regarding fonts from package dependencies,
-  # see https://flutter.dev/to/font-from-package
+  
