@@ -4,14 +4,24 @@ import 'dart:ui';
 
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get_navigation/get_navigation.dart';
 import 'package:get/get_navigation/src/root/get_material_app.dart';
+import 'package:get/instance_manager.dart';
+import 'package:get/utils.dart';
 import 'package:iconsax_plus/iconsax_plus.dart';
+import 'package:omni_video_player/omni_video_player/controllers/global_playback_controller.dart';
+import 'package:taswq/features/auth/screens/login_screen.dart';
+import 'package:taswq/localization/string_keys.dart';
+import 'package:taswq/localization/translations.dart';
+import 'package:taswq/routes/app_pages.dart';
+import 'package:taswq/routes/app_routes.dart';
 
 import 'package:taswq/shared/widgets/animated_badge.dart';
 import 'package:taswq/shared/widgets/animated_button.dart';
 import 'package:taswq/shared/widgets/animated_fill_button.dart';
 import 'package:taswq/shared/widgets/card.dart';
 import 'package:taswq/shared/widgets/glass_container.dart';
+import 'package:taswq/shared/widgets/neuro_button.dart';
 import 'package:taswq/shared/widgets/primary_button.dart';
 import 'package:taswq/shared/widgets/secondary_button.dart';
 import 'package:taswq/utils/constants/colors.dart';
@@ -20,6 +30,7 @@ import 'package:taswq/utils/themes/app_theme.dart';
 import 'package:taswq/utils/themes/appbar_theme.dart';
 
 void main() {
+  Get.create<GlobalPlaybackController>(() => GlobalPlaybackController());
   runApp(const LumenApp());
 }
 
@@ -28,13 +39,20 @@ class LumenApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return GetMaterialApp(
-      title: 'LumenWave (Light) Demo',
-      theme: XAppTheme.light,
-      home: const HomePage(),
-      // home: LiquidButtonDemo(),
-      locale: const Locale('ar'),
-      debugShowCheckedModeBanner: false,
+    return SafeArea(
+      maintainBottomViewPadding: true,
+      child: GetMaterialApp(
+        title: 'LumenWave (Light) Demo',
+        theme: XAppTheme.light,
+        // home: const HomePage(),
+        // home: const LoginScreen(),
+        // home: LiquidButtonDemo(),
+        locale: Locale('ar'),
+        translations: XTranslations(),
+        getPages: XAppPages.pages,
+        initialRoute: XAppRoutes.login,
+        debugShowCheckedModeBanner: false,
+      ),
     );
   }
 }
@@ -90,12 +108,20 @@ class _HomePageState extends State<HomePage> {
                           XPrimaryButton(
                             label: 'الزر الرئيسي',
                             onPressed: () {},
-                            leading: Icon(IconsaxPlusLinear.add_square),
+                            // leading: Icon(IconsaxPlusLinear.add_square),
                           ),
                           const SizedBox(width: 12),
                           XSecondaryButton(
                             label: 'الزر الثانوي',
                             onPressed: () {},
+                          ),
+                          const SizedBox(width: 12),
+                          XNeuroButton(
+                            color: XColors.electricMagenta,
+                            child: Text(
+                              'اضغطني',
+                              style: theme.textTheme.bodyLarge!.copyWith(),
+                            ),
                           ),
                         ],
                       ),
@@ -125,6 +151,22 @@ class _HomePageState extends State<HomePage> {
                           ),
                         ],
                       ),
+                    ),
+                  ),
+                ),
+                const SizedBox(height: 18),
+                Center(
+                  child: XNeuroButton(
+                    color: XColors.electricMagenta,
+                    child: Text(
+                      XStringKeys.language.tr,
+
+                      style: theme.textTheme.titleSmall!.copyWith(),
+                    ),
+                    onPressed: () async => await Get.updateLocale(
+                      Get.locale == const Locale('en')
+                          ? const Locale('ar')
+                          : const Locale('en'),
                     ),
                   ),
                 ),

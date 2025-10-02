@@ -4,6 +4,7 @@ import 'package:taswq/utils/themes/appbar_theme.dart';
 import 'package:taswq/utils/themes/card_theme.dart';
 import 'package:taswq/utils/themes/elevated_button_theme.dart';
 import 'package:taswq/utils/themes/icon_theme.dart';
+import 'package:taswq/utils/themes/input_decoration_theme.dart';
 import 'package:taswq/utils/themes/outlined_button_theme.dart';
 import 'package:taswq/utils/themes/text_theme.dart';
 
@@ -16,6 +17,7 @@ class XAppTheme {
     primaryTextTheme: XTextTheme.light,
 
     scaffoldBackgroundColor: XColors.paperLight,
+    
     colorScheme: base.colorScheme.copyWith(
       primary: XColors.electricMagenta,
       secondary: XColors.softNeon,
@@ -30,6 +32,7 @@ class XAppTheme {
     elevatedButtonTheme: XElevatedButtonTheme.light,
     outlinedButtonTheme: XOutlinedButtonTheme.light,
     iconTheme: XIconTheme.light,
+    inputDecorationTheme: XInputDecorationTheme.light
 
     // textDirection: TextDirection.rtl,
   );
