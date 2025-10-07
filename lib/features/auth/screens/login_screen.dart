@@ -3,24 +3,26 @@ import 'package:get/get.dart';
 import 'package:iconsax_plus/iconsax_plus.dart';
 import 'package:lottie/lottie.dart';
 import 'package:taswq/features/auth/controllers/login_page_controller.dart';
-import 'package:taswq/features/auth/screens/veedz_page.dart';
 import 'package:taswq/localization/string_keys.dart';
+import 'package:taswq/routes/app_routes.dart';
 import 'package:taswq/shared/widgets/neuro_button.dart';
 import 'package:taswq/shared/widgets/primary_button.dart';
 import 'package:taswq/shared/widgets/secondary_button.dart';
 import 'package:taswq/utils/constants/asset_images.dart';
 import 'package:taswq/utils/constants/asset_lotties.dart';
 import 'package:taswq/utils/constants/colors.dart';
+import 'package:taswq/utils/validators/validators.dart';
 
 class LoginScreen extends StatelessWidget {
-  const LoginScreen({super.key});
+  LoginScreen({super.key});
+  final LoginPageController _pageController = Get.find<LoginPageController>();
 
   @override
   Widget build(BuildContext context) {
-    final LoginPageController _pageController = Get.find<LoginPageController>();
     return Scaffold(
       body: SingleChildScrollView(
         physics: NeverScrollableScrollPhysics(),
+
         // keyboardDismissBehavior: ScrollViewKeyboardDismissBehavior.onDrag,
         child: ConstrainedBox(
           constraints: BoxConstraints(maxHeight: Get.height),
@@ -81,82 +83,57 @@ class LoginScreen extends StatelessWidget {
                         mainAxisAlignment: MainAxisAlignment.start,
                         mainAxisSize: MainAxisSize.min,
                         children: [
-                          TextFormField(
-                            controller: _pageController.usernameController,
-                            decoration: InputDecoration(
-                              labelText: XStringKeys.phoneNumber.tr,
-                              prefixIcon: Icon(IconsaxPlusLinear.mobile),
+                          Form(
+                            key: _pageController.formfieldKey,
+                            autovalidateMode: AutovalidateMode.onUnfocus,
+
+                            child: TextFormField(
+                              validator: XValidators.phoneNumber,
+                              keyboardType: TextInputType.numberWithOptions(),
+                              onFieldSubmitted: (value) =>
+                                  _pageController.formfieldKey,
+                              controller: _pageController.phoneNumberController,
+
+                              decoration: InputDecoration(
+                                labelText: XStringKeys.phoneNumber.tr,
+                                prefixIcon: Icon(IconsaxPlusLinear.mobile),
+                              ),
+                              onEditingComplete: _pageController.login,
                             ),
                           ),
                           SizedBox(height: 12),
 
-                          Obx(
-                            () => TextFormField(
-                              controller: _pageController.passwordController,
-                              obscureText: _pageController.obscure.value,
-                              decoration: InputDecoration(
-                                labelText: XStringKeys.password.tr,
-                                prefixIcon: Icon(IconsaxPlusLinear.lock),
-                                suffixIcon: IconButton(
-                                  onPressed: _pageController.hidePassword,
-                                  icon: Icon(
-                                    _pageController.obscure.value
-                                        ? IconsaxPlusLinear.eye_slash
-                                        : IconsaxPlusLinear.eye,
-                                  ),
-                                ),
-                              ),
-                            ),
-                          ),
-                          SizedBox(height: 12),
                           Row(
                             mainAxisAlignment: MainAxisAlignment.center,
                             textDirection: TextDirection.rtl,
                             children: [
                               XPrimaryButton(
                                 label: XStringKeys.login.tr,
-
-                                // style: Get.theme.textTheme.titleLarge,
-                                onPressed: () {
-                                  _pageController.login().then(
-                                    (r) => Get.defaultDialog(
-                                      titleStyle: Get.textTheme.titleLarge,
-                                      title: r.success
-                                          ? 'تم تسجيل الدخول'
-                                          : 'خطأ',
-                                      middleText: r.message,
-                                    ),
-                                  );
-                                },
+                                onPressed: _pageController.login,
                               ),
                               SizedBox(width: 12),
                               XSecondaryButton(
                                 label: XStringKeys.signup.tr,
                                 onPressed: () {
-                                  _pageController.loginService.getPerson().then(
-                                    (r) => Get.defaultDialog(
-                                      title: 'شخص',
-                                      titleStyle: Get.textTheme.titleLarge,
-                                      middleText:
-                                          'username:${r.username}\npassword:${r.password}',
-                                    ),
-                                  );
+                                  // _pageController._loginService.getPerson().then(
+                                  //   (r) => Get.defaultDialog(
+                                  //     title: 'شخص',
+                                  //     titleStyle: Get.textTheme.titleLarge,
+                                  //     middleText:
+                                  //         'username:${r.username}\npassword:${r.password}',
+                                  //   ),
+                                  // );
                                 },
                               ),
                             ],
                           ),
                           Spacer(),
-                          XNeuroButton(
-                            onPressed: ()=> Get.to(()=> VeedzPage()),
-                            child: Text(
-                              "Veedz",
-                              style: Get.textTheme.titleLarge,
-                            ),
-                          ),
+
                           SizedBox(height: 20),
                           Text('login with', style: Get.textTheme.bodyLarge),
                           SizedBox(height: 10),
                           Row(
+                            crossAxisAlignment: CrossAxisAlignment.end,
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
                               CircleAvatar(
@@ -187,7 +164,7 @@ class LoginScreen extends StatelessWidget {
                               ),
                             ],
                           ),
-                          SizedBox(height: 50),
+                          SizedBox(height: 100),
                         ],
                       ),
                     ),

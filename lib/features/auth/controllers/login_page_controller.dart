@@ -3,26 +3,39 @@ import 'package:get/get.dart';
 import 'package:taswq/data/services/login_service.dart';
 import 'package:taswq/features/auth/models/login_result.dart';
 import 'package:taswq/features/auth/models/person.dart';
+import 'package:taswq/routes/app_routes.dart';
 
 class LoginPageController extends GetxController {
-  final obscure = false.obs;
-  final usernameController = TextEditingController();
-  final passwordController = TextEditingController();
+  final phoneNumberController = TextEditingController();
   bool visible = false;
-  final loginService = LoginService();
-  void hidePassword() {
-    obscure.value = !obscure.value;
+  final _loginService = LoginService();
+  final formfieldKey = GlobalKey<FormState>();
+  void login() async {
+    if (formfieldKey.currentState!.validate()) {
+      final result = await _loginRequest();
+      if (result.success) {
+        Get.toNamed(XAppRoutes.otp);
+      } else {
+        Get.defaultDialog(
+          titleStyle: Get.textTheme.titleLarge,
+          title: 'خطأ',
+          middleText: result.message,
+        );
+      }
+    }
   }
 
-  Future<LoginResult> login() async {
+  Future<LoginResult> _loginRequest() async {
     showLoadingDialog();
-    final result = await loginService.login(
-      Person(
-        username: usernameController.text,
-        password: passwordController.text,
-      ),
-    );
+    final result = await _loginService.newLogin(phoneNumberController.text);
+    //   Person(
+    //     username: usernameController.text,
+    //     password: passwordController.text,
+    //   ),
+    // );
     showLoadingDialog();
+    //todo: navigate to number confirmation page
+    //todo: save login credentials & token at local
     return result;
   }
 
@@ -37,12 +50,5 @@ class LoginPageController extends GetxController {
           )
         : Get.back();
     visible = !visible;
-  }
-
-  @override
-  void onInit() {
-    // TODO: implement onInit
-
-    super.onInit();
   }
 }

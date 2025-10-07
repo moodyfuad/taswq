@@ -1,16 +1,11 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'dart:math';
-import 'dart:ui';
 
-import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get_navigation/get_navigation.dart';
-import 'package:get/get_navigation/src/root/get_material_app.dart';
-import 'package:get/instance_manager.dart';
 import 'package:get/utils.dart';
 import 'package:iconsax_plus/iconsax_plus.dart';
-import 'package:omni_video_player/omni_video_player/controllers/global_playback_controller.dart';
-import 'package:taswq/features/auth/screens/login_screen.dart';
+import 'package:taswq/app.dart';
 import 'package:taswq/localization/string_keys.dart';
 import 'package:taswq/localization/translations.dart';
 import 'package:taswq/routes/app_pages.dart';
@@ -18,7 +13,6 @@ import 'package:taswq/routes/app_routes.dart';
 
 import 'package:taswq/shared/widgets/animated_badge.dart';
 import 'package:taswq/shared/widgets/animated_button.dart';
-import 'package:taswq/shared/widgets/animated_fill_button.dart';
 import 'package:taswq/shared/widgets/card.dart';
 import 'package:taswq/shared/widgets/glass_container.dart';
 import 'package:taswq/shared/widgets/neuro_button.dart';
@@ -27,11 +21,9 @@ import 'package:taswq/shared/widgets/secondary_button.dart';
 import 'package:taswq/utils/constants/colors.dart';
 import 'package:taswq/utils/constants/sizes.dart';
 import 'package:taswq/utils/themes/app_theme.dart';
-import 'package:taswq/utils/themes/appbar_theme.dart';
 
 void main() {
-  Get.create<GlobalPlaybackController>(() => GlobalPlaybackController());
-  runApp(const LumenApp());
+  runApp(const MyApp());
 }
 
 class LumenApp extends StatelessWidget {
@@ -44,13 +36,15 @@ class LumenApp extends StatelessWidget {
       child: GetMaterialApp(
         title: 'LumenWave (Light) Demo',
         theme: XAppTheme.light,
-        // home: const HomePage(),
+        home: const HomePage(),
         // home: const LoginScreen(),
         // home: LiquidButtonDemo(),
+        
+
         locale: Locale('ar'),
         translations: XTranslations(),
         getPages: XAppPages.pages,
-        initialRoute: XAppRoutes.login,
+        // initialRoute: XAppRoutes.login,
         debugShowCheckedModeBanner: false,
       ),
     );

@@ -18,7 +18,7 @@ class Person {
         password: json["password"],
     );
 
-    Map<String, dynamic> toJson() => {
+    Map<String, String> toJson() => {
         "username": username,
         "password": password,
     };

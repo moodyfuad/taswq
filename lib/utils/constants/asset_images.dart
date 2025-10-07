@@ -8,4 +8,5 @@ class XAssetImages {
   static const String onboarding3 = 'assets/images/onboarding3.png';
   static const String background = 'assets/images/background.png';
   static const String profilePlaceholder = 'assets/images/profile_placeholder.png';
+  static const String homeBanner = 'assets/images/banner.png';
 }
